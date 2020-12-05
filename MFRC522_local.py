@@ -397,7 +397,7 @@ class MFRC522:
     def StopCrypto1(self):
         self.ClearBitMask(self.Status2Reg, 0x08)
 
-    def Read(self, blockAddr, printData=False, prettyPrint=False):
+    def Read(self, blockAddr, printData=False, prettyPrint=False, noauth=False):
         """
         Read data from a block of the tag.
 
@@ -416,7 +416,7 @@ class MFRC522:
         recvData += pOut
         (status, backData, backLen) = self.ToCard(self.PCD_TRANSCEIVE, recvData)
 
-        if not(status == self.MI_OK):
+        if not(status == self.MI_OK) or noauth:
             print("Error while reading!")
 
         if len(backData) == 16:
@@ -578,9 +578,9 @@ class MFRC522:
 
             # Check if authenticated
             if noauth or status == self.MI_OK:
-                data.append(self.Read(i))
-                data.append(self.Read(i + 1))
-                data.append(self.Read(i + 2))
+                data.append(self.Read(i,noauth))
+                data.append(self.Read(i + 1,noauth))
+                data.append(self.Read(i + 2,noauth))
             else:
                 print("Authentication error")
                 raise errors.AuthenticationException
