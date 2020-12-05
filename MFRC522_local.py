@@ -586,7 +586,7 @@ class MFRC522:
                 raise errors.AuthenticationException
         return data
 
-    def DumpClassic1K_Text(self, key, uid, print_text=True):
+    def DumpClassic1K_Text(self, key, uid, print_text=True, noauth=False):
         """
         Dumps only DATA blocks. The data in each block is interpreted as string according to pythons ```chr(value)```.
 
@@ -597,7 +597,7 @@ class MFRC522:
         Returns:
             string: All the data on the tag interpreted as a single string.
         """
-        data = self.DumpClassic1K_Data(key, uid)
+        data = self.DumpClassic1K_Data(key, uid, noauth)
         text = ""
         for block in data:
             b_print = ""
