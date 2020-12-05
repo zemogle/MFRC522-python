@@ -28,34 +28,38 @@ print("Press Ctrl-C to stop.")
 
 # This loop keeps checking for chips. If one is near it will get the UID and authenticate
 # while continue_reading:
-while True:
-    # Scan for cards
-    (status, TagType) = MIFAREReader.Request(MIFAREReader.PICC_REQIDL)
+try:
+    while True:
+        # Scan for cards
+        (status, TagType) = MIFAREReader.Request(MIFAREReader.PICC_REQIDL)
 
-    # If a card is found
-    if status == MIFAREReader.MI_OK:
-        print("Card detected")
+        # If a card is found
+        if status == MIFAREReader.MI_OK:
+            print("Card detected")
 
-    # Get the UID of the card
-    (status, uid) = MIFAREReader.Anticoll()
+        # Get the UID of the card
+        (status, uid) = MIFAREReader.Anticoll()
 
-    # If we have the UID, continue
-    if status == MIFAREReader.MI_OK:
+        # If we have the UID, continue
+        if status == MIFAREReader.MI_OK:
 
-        # Print UID
-        print("Card read UID: " + str(uid[0]) + "," + str(uid[1]) + "," + str(uid[2]) + "," + str(uid[3]))
+            # Print UID
+            print("Card read UID: " + str(uid[0]) + "," + str(uid[1]) + "," + str(uid[2]) + "," + str(uid[3]))
 
-        # This is the default key for authentication
-        key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+            # This is the default key for authentication
+            key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 
-        # Select the scanned tag
-        MIFAREReader.SelectTag(uid)
-        data = MIFAREReader.DumpClassic1K_Data(key, uid, noauth=True)
+            # Select the scanned tag
+            MIFAREReader.SelectTag(uid)
+            data = MIFAREReader.DumpClassic1K_Data(key, uid, noauth=True)
 
-        MIFAREReader.StopCrypto1()
+            MIFAREReader.StopCrypto1()
 
-        for block in data:
-            b = ""
-            for byte in block:
-                b += chr(byte)
-            print(b)
+            for block in data:
+                b = ""
+                for byte in block:
+                    b += chr(byte)
+                print(b)
+except KeyboardInterrupt:
+        GPIO.cleanup()
+        raise

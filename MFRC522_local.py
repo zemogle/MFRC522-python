@@ -573,10 +573,11 @@ class MFRC522:
         data = []
         for i in range(4, 64, 4):
             # Authenticate
-            status = self.Auth(self.PICC_AUTHENT1A, i, key, uid)
+            if not noauth:
+                status = self.Auth(self.PICC_AUTHENT1A, i, key, uid)
 
             # Check if authenticated
-            if status == self.MI_OK or noauth:
+            if noauth or status == self.MI_OK:
                 data.append(self.Read(i))
                 data.append(self.Read(i + 1))
                 data.append(self.Read(i + 2))
