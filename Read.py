@@ -51,11 +51,9 @@ try:
 
             # Select the scanned tag
             MIFAREReader.SelectTag(uid)
-            data = MIFAREReader.DumpClassic1K_Data(key, uid, noauth=True)
+            data = MIFAREReader.DumpClassic1K(key, uid, noauth=True)
 
-            text = MIFAREReader.DumpClassic1K_Text(key, uid, noauth=True)
             MIFAREReader.StopCrypto1()
-            print(text)
             for block in data:
                 b = ""
                 for byte in block:
