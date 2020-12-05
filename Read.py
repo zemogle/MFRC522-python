@@ -50,7 +50,7 @@ while True:
 
         # Select the scanned tag
         MIFAREReader.SelectTag(uid)
-        data = MIFAREReader.DumpClassic1K_Data(key, uid)
+        data = MIFAREReader.DumpClassic1K_Data(key, uid, noauth=True)
 
         MIFAREReader.StopCrypto1()
 

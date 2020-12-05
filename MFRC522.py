@@ -521,7 +521,7 @@ class MFRC522:
             else:
                 print("Authentication error")
 
-    def PrettyDumpClassic1K(self, key, uid, pretty=True):
+    def PrettyDumpClassic1K(self, key, uid, pretty=True, noauth=False):
         """
         Dumps all blocks to the console. Coloring is inspired by https://en.wikipedia.org/wiki/File:MiFare_Byte_Layout.png.
 
@@ -535,7 +535,7 @@ class MFRC522:
             status = self.Auth(self.PICC_AUTHENT1A, i, key, uid)
 
             # Check if authenticated
-            if status == self.MI_OK:
+            if status == self.MI_OK or noauth == True:
                 if pretty:
                     print("{}{:-^58}{}".format(tcolors.YELLOW, " Sector {} ".format(i // 4), tcolors.ENDC))
                 else:
@@ -549,7 +549,7 @@ class MFRC522:
                 print("Authentication error")
                 raise errors.AuthenticationException
 
-    def DumpClassic1K(self, key, uid):
+    def DumpClassic1K(self, key, uid, noauth):
         """
         Dumps all blocks to the console.
 
@@ -557,7 +557,7 @@ class MFRC522:
             key ([uint8]): Key A of the sector trailer block.
             uid ([uint8]): The 4 byte uid of the card/tag.
         """
-        self.PrettyDumpClassic1K(key, uid, pretty=False)
+        self.PrettyDumpClassic1K(key, uid, pretty=False, noauth=noauth)
 
     def DumpClassic1K_Data(self, key, uid):
         """
