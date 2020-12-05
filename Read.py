@@ -2,7 +2,7 @@
 # -*- coding: utf8 -*-
 
 import RPi.GPIO as GPIO
-import MFRC522_local as MFCRC522
+import MFRC522_local as MFRC522
 import signal
 
 continue_reading = True
