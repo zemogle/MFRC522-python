@@ -532,10 +532,11 @@ class MFRC522:
         """
         for i in range(0, 64, 4):
             # Authenticate
-            status = self.Auth(self.PICC_AUTHENT1A, i, key, uid)
+            if not noauth:
+                status = self.Auth(self.PICC_AUTHENT1A, i, key, uid)
 
             # Check if authenticated
-            if status == self.MI_OK or noauth == True:
+            if noauth == True or status == self.MI_OK:
                 if pretty:
                     print("{}{:-^58}{}".format(tcolors.YELLOW, " Sector {} ".format(i // 4), tcolors.ENDC))
                 else:
