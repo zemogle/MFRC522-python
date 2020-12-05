@@ -559,7 +559,7 @@ class MFRC522:
         """
         self.PrettyDumpClassic1K(key, uid, pretty=False, noauth=noauth)
 
-    def DumpClassic1K_Data(self, key, uid):
+    def DumpClassic1K_Data(self, key, uid, noauth=False):
         """
         Dumps only DATA blocks. The first sector as well as all sector trailer blocks are ommitted.
 
@@ -576,7 +576,7 @@ class MFRC522:
             status = self.Auth(self.PICC_AUTHENT1A, i, key, uid)
 
             # Check if authenticated
-            if status == self.MI_OK:
+            if status == self.MI_OK or noauth:
                 data.append(self.Read(i))
                 data.append(self.Read(i + 1))
                 data.append(self.Read(i + 2))
